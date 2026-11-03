@@ -8,6 +8,8 @@ public class RootBeer_MainSystem
     public static nint MainWindow;
     public static nint MainRenderer;
 
+    public static int OriginalWindowResolutionWidth;
+    public static int OriginalWindowResolutionHeight;
     private static bool WindowExitTryed;
 
     private static double MeasurementTimeStart;
@@ -28,10 +30,13 @@ public class RootBeer_MainSystem
             return;
         }
 
-        if (!SDL.CreateWindowAndRenderer(_WindowTitle, _WindowWidth, _WindowHeight, 0, out MainWindow, out MainRenderer))
+        if (!SDL.CreateWindowAndRenderer(_WindowTitle, _WindowWidth, _WindowHeight, SDL.WindowFlags.Resizable, out MainWindow, out MainRenderer))
         {
             Console.WriteLine("Error while initializing the Window and Renderer!.");
         }
+
+        OriginalWindowResolutionWidth = _WindowWidth;
+        OriginalWindowResolutionHeight = _WindowHeight;
     }
     public static void CloseInstance()
     {
@@ -119,14 +124,7 @@ public class RootBeer_MainSystem
 
                     break;
             }
-        }
-    }
-
-    public static bool IsMouseButtonJustPressed()
-    {
-        
-        
-        return false;
+        } 
     }
 
     public static bool GetWindowQuitAttempt()

@@ -4,7 +4,7 @@ using SDL3;
 namespace RootBeer_CS;
 public class RootBeer_RenderDrawSystem
 {
-    private static nint CurrentRenderer;
+    public static nint CurrentRenderer;
 
     public static void SetCurrentRenderer(nint _Renderer)
     {
