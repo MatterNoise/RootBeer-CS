@@ -5,11 +5,8 @@ namespace RootBeer_CS;
 public class RootBeer_MainSystem
 {
     // Variable declarations
-    public static nint MainWindow;
-    public static nint MainRenderer;
-
-    public static int OriginalWindowResolutionWidth;
-    public static int OriginalWindowResolutionHeight;
+    public static List<RenderingWindow> RenderingWindows;
+    
     private static bool WindowExitTryed;
 
     private static double MeasurementTimeStart;
@@ -20,8 +17,10 @@ public class RootBeer_MainSystem
     public static byte[] MouseButtonPressingStates = new byte[16];
 
     // Function declarations
-    public static void InitInstance(string _WindowTitle, int _WindowWidth, int _WindowHeight)
+    public static void InitInstance()
     {
+        RenderingWindows = new List<RenderingWindow>();
+
         // Try to init all of the SDL functions
         if (!SDL.Init(0))
         {
@@ -29,21 +28,36 @@ public class RootBeer_MainSystem
             
             return;
         }
-
-        if (!SDL.CreateWindowAndRenderer(_WindowTitle, _WindowWidth, _WindowHeight, SDL.WindowFlags.Resizable, out MainWindow, out MainRenderer))
-        {
-            Console.WriteLine("Error while initializing the Window and Renderer!.");
-        }
-
-        OriginalWindowResolutionWidth = _WindowWidth;
-        OriginalWindowResolutionHeight = _WindowHeight;
     }
+
     public static void CloseInstance()
     {
-        SDL.DestroyRenderer(MainRenderer);
-        SDL.DestroyWindow(MainWindow);
+        //SDL.DestroyRenderer(MainRenderer);
+        //SDL.DestroyWindow(MainWindow);
 
         SDL.Quit();
+    }
+
+    public static RenderingWindow CreateNewWindow(string _WindowTitle, int _WindowWidth, int _WindowHeight)
+    {
+        RenderingWindow NewRenderingWindow = new RenderingWindow();
+        
+        if (!SDL.CreateWindowAndRenderer(_WindowTitle, _WindowWidth, _WindowHeight, SDL.WindowFlags.Resizable, out NewRenderingWindow.Window, out NewRenderingWindow.Renderer))
+        {
+            Console.WriteLine("Error while initializing the Window and Renderer!.");
+
+            return null;
+        }
+
+        RenderingWindows.Add(NewRenderingWindow);
+
+        return NewRenderingWindow;
+    }
+
+    public static void CloseWindow(RenderingWindow _Window)
+    {
+        SDL.DestroyRenderer(_Window.Renderer);
+        SDL.DestroyWindow(_Window.Window);
     }
 
     public static void GetDeltaTimeMeasurement()
@@ -58,7 +72,7 @@ public class RootBeer_MainSystem
 
     public static void PollEvents()
     {
-        SDL.Event WindowEvent;
+        SDL.Event GlobalEvent;
 
         WindowExitTryed = false;
 
@@ -92,39 +106,42 @@ public class RootBeer_MainSystem
         }
 
         // Fetch the events ocurred on the Main window
-        while (SDL.PollEvent(out WindowEvent))
+        while (SDL.PollEvent(out GlobalEvent))
         {
-            switch (WindowEvent.Type)
+            //GlobalEvent.Window
+
+
+            switch (GlobalEvent.Window.Type)
             {
-                case (uint)SDL.EventType.Quit:
+                case SDL.EventType.WindowCloseRequested:
                     WindowExitTryed = true;
 
                     break;
                 
                 // Keyboard keys events
-                case (uint)SDL.EventType.KeyDown:
-                    if (WindowEvent.Key.Repeat == false)
+                case SDL.EventType.KeyDown:
+                    if (GlobalEvent.Key.Repeat == false)
                     {
-                        KeysPressingStates[(UInt16)WindowEvent.Key.Scancode] = RootBeer_KeyboardConstants.KEY_PRESSED_NUM;
+                        KeysPressingStates[(UInt16)GlobalEvent.Key.Scancode] = RootBeer_KeyboardConstants.KEY_PRESSED_NUM;
                     }
 
                     break;
-                case (uint)SDL.EventType.KeyUp:
-                    KeysPressingStates[(UInt16)WindowEvent.Key.Scancode] = RootBeer_KeyboardConstants.KEY_RELEASED_NUM;
+                case SDL.EventType.KeyUp:
+                    KeysPressingStates[(UInt16)GlobalEvent.Key.Scancode] = RootBeer_KeyboardConstants.KEY_RELEASED_NUM;
 
                     break;
 
                 // Mouse buttons events
-                case (uint)SDL.EventType.MouseButtonDown:
-                    MouseButtonPressingStates[WindowEvent.Button.Button] = RootBeer_MouseButtonsConstants.BUTTON_PRESSED_NUM;
+                case SDL.EventType.MouseButtonDown:
+                    MouseButtonPressingStates[GlobalEvent.Button.Button] = RootBeer_MouseButtonsConstants.BUTTON_PRESSED_NUM;
 
                     break;
-                case (uint)SDL.EventType.MouseButtonUp:
-                    MouseButtonPressingStates[WindowEvent.Button.Button] = RootBeer_MouseButtonsConstants.BUTTON_RELEASED_NUM;
+                case SDL.EventType.MouseButtonUp:
+                    MouseButtonPressingStates[GlobalEvent.Button.Button] = RootBeer_MouseButtonsConstants.BUTTON_RELEASED_NUM;
 
                     break;
             }
-        } 
+        }
     }
 
     public static bool GetWindowQuitAttempt()
