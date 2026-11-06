@@ -57,4 +57,21 @@ public class RootBeer_RenderDrawSystem
 
         SDL.RenderFillRect(CurrentRenderer, DrawRectVar);
     }
+
+    public static void DrawRectTexture(nint _RectangleTexture, float _RectangleX, float _RectangleY, float _RectangleW, float _RectangleH, float _TextureX, float _TextureY, float _TextureW, float _TextureH)
+    {
+        SDL.FRect DrawRectVar = new SDL.FRect();
+        DrawRectVar.X = _RectangleX;
+        DrawRectVar.Y = _RectangleY;
+        DrawRectVar.W = _RectangleW;
+        DrawRectVar.H = _RectangleH;
+
+        SDL.FRect TextureRectVar = new SDL.FRect();
+        TextureRectVar.X = _TextureX;
+        TextureRectVar.Y = _TextureY;
+        TextureRectVar.W = _TextureW;
+        TextureRectVar.H = _TextureH;
+
+        SDL.RenderTexture(CurrentRenderer, _RectangleTexture, TextureRectVar, DrawRectVar);
+    }
 }
