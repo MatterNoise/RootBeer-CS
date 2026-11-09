@@ -2,7 +2,6 @@
 using SDL3;
 
 namespace RootBeer_CS;
-
 public class RootBeer_KeyboardSystem
 {
     public static bool IsKeyHolded(UInt16 _Key)
