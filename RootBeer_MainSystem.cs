@@ -28,6 +28,11 @@ public class RootBeer_MainSystem
             
             return;
         }
+
+        if (!SDL3.TTF.Init())
+        {
+            Console.WriteLine("Error while initializing SDL3 Font system!.");
+        }
     }
 
     public static void CloseInstance()
@@ -35,6 +40,7 @@ public class RootBeer_MainSystem
         //SDL.DestroyRenderer(MainRenderer);
         //SDL.DestroyWindow(MainWindow);
 
+        SDL3.TTF.Quit();
         SDL.Quit();
     }
 
