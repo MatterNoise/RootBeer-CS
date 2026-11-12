@@ -3,18 +3,12 @@ using SDL3;
 using RootBeer_CS;
 
 namespace MilkShakeUI;
-public class BaseControlClass
+public class BaseControlClass : BaseTemplateClass
 {
     public float PositionX;
     public float PositionY;
     public float SizeWidth;
     public float SizeHeight;
-
-    public virtual void Init() { }
-    public virtual void Close() { }
-
-    public virtual void Update() { }
-    public virtual void Draw() { }
 
     public bool IsMouseHovering()
     {
