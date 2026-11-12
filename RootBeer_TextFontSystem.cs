@@ -5,6 +5,8 @@ namespace RootBeer_CS;
 
 public class RootBeer_TextFontSystem
 {
+    public static SDL.Color CurrentFontColor = new SDL.Color() { R = 255, G = 255, B = 255, A = 255 };
+
     public static nint CurrentFont;
 
     public static void SetCurrentFont(nint _Font)
@@ -12,9 +14,17 @@ public class RootBeer_TextFontSystem
         CurrentFont = _Font;
     }
 
+    public static void SetCurrentFontColor(byte _Red, byte _Green, byte _Blue, byte _Alpha)
+    {
+        CurrentFontColor.R = _Red;
+        CurrentFontColor.G = _Green;
+        CurrentFontColor.B = _Blue;
+        CurrentFontColor.A = _Alpha;
+    }
+
     public static void DrawText(string _Text, int _PositionX, int _PositionY)
     {
-        nint TextSurface = SDL3.TTF.RenderTextSolid(CurrentFont, _Text, 0, new SDL.Color(){ R = 255, G = 255, B = 255, A = 255 });
+        nint TextSurface = SDL3.TTF.RenderTextSolid(CurrentFont, _Text, 0, CurrentFontColor);
         nint TextTexture = SDL.CreateTextureFromSurface(RootBeer_RenderDrawSystem.CurrentRenderer, TextSurface);
 
         SDL3.TTF.GetStringSize(CurrentFont, _Text, 0, out int TextPixelWidth, out int TextPixelHeight);
