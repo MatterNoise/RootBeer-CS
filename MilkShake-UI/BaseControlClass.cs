@@ -1,14 +1,22 @@
 ﻿using System;
 using SDL3;
 using RootBeer_CS;
+using EventHandler;
 
 namespace MilkShakeUI;
 public class BaseControlClass : BaseTemplateClass
 {
+    public event IEventHandler<string> ControlEvent;
+
     public float PositionX = 0;
     public float PositionY = 0;
     public float SizeWidth = 16;
     public float SizeHeight = 16;
+
+    public void ThrowControlEvent(string _EventName)
+    {
+        ControlEvent?.Invoke(this, _EventName);
+    }
 
     public bool IsMouseHovering()
     {
@@ -32,4 +40,5 @@ public class BaseControlClass : BaseTemplateClass
         
         return false;
     }
+
 }
