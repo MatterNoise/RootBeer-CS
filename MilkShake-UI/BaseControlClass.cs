@@ -5,10 +5,10 @@ using RootBeer_CS;
 namespace MilkShakeUI;
 public class BaseControlClass : BaseTemplateClass
 {
-    public float PositionX;
-    public float PositionY;
-    public float SizeWidth;
-    public float SizeHeight;
+    public float PositionX = 0;
+    public float PositionY = 0;
+    public float SizeWidth = 16;
+    public float SizeHeight = 16;
 
     public bool IsMouseHovering()
     {

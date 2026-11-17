@@ -14,7 +14,7 @@ public class RootBeer_TextFontSystem
         CurrentFont = _Font;
     }
 
-    public static void SetCurrentFontColor(byte _Red, byte _Green, byte _Blue, byte _Alpha)
+    public static void SetTextColor(byte _Red, byte _Green, byte _Blue, byte _Alpha)
     {
         CurrentFontColor.R = _Red;
         CurrentFontColor.G = _Green;

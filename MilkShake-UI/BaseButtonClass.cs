@@ -14,7 +14,13 @@ class BaseButtonClass : BaseControlClass
     }
     public override void Draw()
     {
-
+        RootBeer_RenderDrawSystem.SetDrawColor(255, 255, 255, 255);
+        RootBeer_RenderDrawSystem.DrawRectFill(
+            PositionX,
+            PositionX,
+            SizeWidth,
+            SizeHeight
+        );
     }
 
     public virtual void _IsPressed()
